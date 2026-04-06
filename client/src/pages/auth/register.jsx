@@ -1,7 +1,7 @@
+import React, { useState } from "react";
 import CommonForm from "@/components/common/form";
 import { registerFormControls } from "@/config";
 import { registerUser } from "@/store/authSlice";
-import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -24,6 +24,8 @@ const AuthRegister = () => {
       if (data?.payload?.success) {
         navigate("/auth/login");
         toast.success("Registered Successfull");
+      } else {
+        toast.error(data?.payload?.message || "Some error occured");
       }
     });
   }
