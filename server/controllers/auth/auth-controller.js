@@ -5,8 +5,8 @@ const User = require("../../modals/User");
 const registerUser = async (req, res) => {
   const { userName, email, password } = req.body;
 
-  const hashedPassword = await bcrypt.hash(password, 12);
   try {
+    const hashedPassword = await bcrypt.hash(password, 12);
     const newUser = new User({
       userName,
       email,
