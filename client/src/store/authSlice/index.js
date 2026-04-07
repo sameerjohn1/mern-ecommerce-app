@@ -3,7 +3,7 @@ import axios from "axios";
 
 const initialState = {
   isAuthenticated: false,
-  isLoading: false,
+  isLoading: true,
   user: null,
 };
 
@@ -46,7 +46,7 @@ export const checkAuth = createAsyncThunk("/auth/checkauth", async () => {
     },
   );
 
-  return response.data; // ✅ MOST IMPORTANT
+  return response.data;
 });
 
 const authSlice = createSlice({
