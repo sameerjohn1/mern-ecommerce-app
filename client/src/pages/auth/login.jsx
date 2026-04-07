@@ -15,7 +15,7 @@ const AuthLogin = () => {
   const [formData, setFormData] = useState(initialState);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   function onSubmit(event) {
     event.preventDefault();
