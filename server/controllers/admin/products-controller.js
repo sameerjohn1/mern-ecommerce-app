@@ -88,17 +88,47 @@ const editProduct = async (req, res) => {
     findProduct.image = image || findProduct.image;
 
     await findProduct.save();
-    res
-      .status(200)
-      .json({
-        success: true,
-        data: findProduct,
-        message: "Product updated successfully",
-      });
+    res.status(200).json({
+      success: true,
+      data: findProduct,
+      message: "Product updated successfully",
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Error occured" });
   }
 };
 
-module.exports = { handleImageUpload };
+const deleteProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deletedProduct = await Product.findByIdAndDelete(id);
+
+    if (!deletedProduct) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Product deleted successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Error occurred",
+    });
+  }
+};
+
+module.exports = {
+  handleImageUpload,
+  addProduct,
+  fetchAllProducts,
+  editProduct,
+  deleteProduct,
+};
