@@ -48,4 +48,14 @@ const addProduct = async (req, res) => {
   }
 };
 
+const fetchAllProducts = async (req, res) => {
+  try {
+    const listOfProducts = await Product.find({});
+    res.status(200).json({ success: true, data: listOfProducts });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error occured" });
+  }
+};
+
 module.exports = { handleImageUpload };
