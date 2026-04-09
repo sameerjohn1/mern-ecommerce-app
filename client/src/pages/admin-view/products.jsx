@@ -28,8 +28,11 @@ function AdminProducts() {
   const [formData, setFormData] = useState(initialFormData);
   const [imageFile, setImageFile] = useState(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState("");
+  const [imageLoadingState, setImageLoadingState] = useState(false);
 
   function onSubmit() {}
+
+  console.log(formData, "formDara");
 
   return (
     <Fragment>
@@ -59,9 +62,11 @@ function AdminProducts() {
 
           <ProductImageUpload
             imageFile={imageFile}
-            setImageFile={setImageFile} // ✅ make sure this is passed
+            setImageFile={setImageFile}
             uploadedImageUrl={uploadedImageUrl}
-            setUploadedImageUrl={setUploadedImageUrl} // optional
+            setUploadedImageUrl={setUploadedImageUrl}
+            imageLoadingState={imageLoadingState}
+            setImageLoadingState={setImageLoadingState}
           />
 
           <div className="py-6 p-4">
