@@ -11,7 +11,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 export const addNewProduct = createAsyncThunk(
   "/products/addnewproduct",
   async (formData) => {
-    const result = axios.post(`${API_URL}/api/admin/products/add`, formData, {
+    const result = await axios.post(`${API_URL}/api/admin/products/add`, formData, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -23,8 +23,8 @@ export const addNewProduct = createAsyncThunk(
 
 export const fetchAllProducts = createAsyncThunk(
   "/products/fetchAllProducts",
-  async (formData) => {
-    const result = axios.get(`${API_URL}/api/admin/products/get`, formData);
+  async () => {
+    const result = await axios.get(`${API_URL}/api/admin/products/get`);
 
     return result?.data;
   },
@@ -33,7 +33,7 @@ export const fetchAllProducts = createAsyncThunk(
 export const editProduct = createAsyncThunk(
   "/products/editProduct",
   async ({ id, formData }) => {
-    const result = axios.put(
+    const result = await axios.put(
       `${API_URL}/api/admin/products/edit/${id}`,
       formData,
       {
@@ -50,7 +50,7 @@ export const editProduct = createAsyncThunk(
 export const deleteProduct = createAsyncThunk(
   "/products/deleteProduct",
   async (id) => {
-    const result = axios.delete(
+    const result = await axios.delete(
       `${API_URL}/api/admin/products/delete/${id}`,
 
       {
@@ -74,10 +74,8 @@ const AdminProductsSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(fetchAllProducts.fulfilled, (state, action) => {
-        console.log(action.payload);
-
         state.isLoading = false;
-        state.productList = action.payload;
+        state.productList = action.payload.data;
       })
       .addCase(fetchAllProducts.rejected, (state) => {
         state.isLoading = false;

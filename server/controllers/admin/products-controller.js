@@ -7,9 +7,11 @@ const handleImageUpload = async (req, res) => {
     const url = "data:" + req.file.mimetype + ";base64," + b64;
 
     const result = await imageUploadUtils(url);
-    res
-      .status(200)
-      .json({ message: "Image uploaded successfully", url: result.secure_url });
+    res.status(200).json({
+      success: true,
+      message: "Image uploaded successfully",
+      url: result.secure_url,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Error uploading image" });
@@ -28,7 +30,7 @@ const addProduct = async (req, res) => {
       salePrice,
       totalStock,
     } = req.body;
-    const newlyCreatedProfuct = new Product({
+    const newlyCreatedProduct = new Product({
       image,
       title,
       description,
@@ -39,9 +41,13 @@ const addProduct = async (req, res) => {
       totalStock,
     });
 
-    await newlyCreatedProfuct.save();
+    await newlyCreatedProduct.save();
 
-    res.status(200).json({ message: "Product added successfully" });
+    res.status(200).json({
+      success: true,
+      data: newlyCreatedProduct,
+      message: "Product added successfully",
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Error occured" });
