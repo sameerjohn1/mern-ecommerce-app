@@ -12,6 +12,7 @@ import { addProductFormElements } from "@/config";
 import { useDispatch, useSelector } from "react-redux";
 import { addNewProduct, fetchAllProducts } from "@/store/admin/products-slice";
 import { toast } from "sonner";
+import AdminProductTile from "@/components/admin-view/product-tile";
 
 const initialFormData = {
   image: null,
@@ -86,7 +87,13 @@ function AdminProducts() {
         </Button>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4"></div>
+      <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
+        {productList && productList.length > 0
+          ? productList.map((product) => (
+              <AdminProductTile key={product._id} product={product} />
+            ))
+          : null}
+      </div>
 
       <Sheet
         open={openCreateProductsDialog}
