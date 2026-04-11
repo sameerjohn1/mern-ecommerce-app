@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import ProductImageUpload from "@/components/admin-view/image-upload";
 import CommonForm from "@/components/common/form";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,9 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { addProductFormElements } from "@/config";
+import { useDispatch, useSelector } from "react-redux";
+import { addNewProduct, fetchAllProducts } from "@/store/admin/products-slice";
+import { toast } from "sonner";
 
 const initialFormData = {
   image: null,
@@ -29,10 +32,51 @@ function AdminProducts() {
   const [imageFile, setImageFile] = useState(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState("");
   const [imageLoadingState, setImageLoadingState] = useState(false);
+  const { productList } = useSelector((state) => state.adminProducts);
+  const dispatch = useDispatch();
 
-  function onSubmit() {}
+  function onSubmit(event) {
+    event.preventDefault();
 
-  console.log(formData, "formDara");
+    dispatch(
+      addNewProduct({
+        ...formData,
+        image: uploadedImageUrl,
+      }),
+    )
+      .then((data) => {
+        if (data?.payload?.success) {
+          dispatch(fetchAllProducts());
+          setOpenCreateProductsDialog(false);
+          setImageFile(null);
+          setFormData(initialFormData);
+          setUploadedImageUrl("");
+          toast.success("Product Added Successfully");
+        } else {
+          toast.error("Failed to add product");
+        }
+      })
+      .catch(() => {
+        toast.error("Something went wrong");
+      });
+  }
+
+  function isFormValid() {
+    return (
+      Object.keys(formData)
+        .filter(
+          (currentKey) => currentKey !== "salePrice" && currentKey !== "image",
+        )
+        .map((key) => formData[key] !== "")
+        .every((item) => item) && uploadedImageUrl !== ""
+    );
+  }
+
+  useEffect(() => {
+    dispatch(fetchAllProducts());
+  }, [dispatch]);
+
+  console.log(productList, uploadedImageUrl, "productList");
 
   return (
     <Fragment>
@@ -76,6 +120,7 @@ function AdminProducts() {
               setFormData={setFormData}
               formControls={addProductFormElements}
               buttonText="Add"
+              isBtnDisabled={!isFormValid() || imageLoadingState}
             />
           </div>
         </SheetContent>
