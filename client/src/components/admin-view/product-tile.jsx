@@ -16,7 +16,7 @@ function AdminProductTile({ product }) {
 
         <CardContent>
           <h2 className="text-xl font-bold mb-2 mt-2">{product?.title}</h2>
-          <div className="flex justify-between items-center mb-2 ">
+          <div className="flex justify-between items-center mb-2 pb-3 border-b ">
             <span
               className={`${product?.salePrice > 0 ? "line-through" : ""} text-lg font-semibold text-primary`}
             >
@@ -27,7 +27,7 @@ function AdminProductTile({ product }) {
             ) : null}
           </div>
 
-          <CardFooter className={"flex justify-between items-center "}>
+          <CardFooter className={"flex justify-between items-center px-1 "}>
             <Button className={"w-16"}>Edit</Button>
             <Button className={"w-16"}>Delete</Button>
           </CardFooter>
