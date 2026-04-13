@@ -7,6 +7,7 @@ function AdminProductTile({
   setOpenCreateProductsDialog,
   setFormData,
   setCurrentEditedId,
+  handleDelete,
 }) {
   return (
     <Card className={"w-full max-w-sm mx-auto"}>
@@ -43,7 +44,12 @@ function AdminProductTile({
             >
               Edit
             </Button>
-            <Button className={"w-16"}>Delete</Button>
+            <Button
+              className={"w-16"}
+              onClick={() => handleDelete(product?._id)}
+            >
+              Delete
+            </Button>
           </CardFooter>
         </CardContent>
       </div>
