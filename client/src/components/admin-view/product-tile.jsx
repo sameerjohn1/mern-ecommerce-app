@@ -2,7 +2,12 @@ import React from "react";
 import { Card, CardContent, CardFooter } from "../ui/card";
 import { Button } from "../ui/button";
 
-function AdminProductTile({ product }) {
+function AdminProductTile({
+  product,
+  setOpenCreateProductsDialog,
+  setFormData,
+  setCurrentEditedId,
+}) {
   return (
     <Card className={"w-full max-w-sm mx-auto"}>
       <div>
@@ -16,7 +21,7 @@ function AdminProductTile({ product }) {
 
         <CardContent>
           <h2 className="text-xl font-bold mb-2 mt-2">{product?.title}</h2>
-          <div className="flex justify-between items-center mb-2 ">
+          <div className="flex justify-between items-center mb-2 pb-3 border-b ">
             <span
               className={`${product?.salePrice > 0 ? "line-through" : ""} text-lg font-semibold text-primary`}
             >
@@ -27,8 +32,17 @@ function AdminProductTile({ product }) {
             ) : null}
           </div>
 
-          <CardFooter className={"flex justify-between items-center "}>
-            <Button className={"w-16"}>Edit</Button>
+          <CardFooter className={"flex justify-between items-center px-1 "}>
+            <Button
+              className={"w-16"}
+              onClick={() => {
+                setOpenCreateProductsDialog(true);
+                setCurrentEditedId(product?._id);
+                setFormData(product);
+              }}
+            >
+              Edit
+            </Button>
             <Button className={"w-16"}>Delete</Button>
           </CardFooter>
         </CardContent>
