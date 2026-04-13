@@ -12,6 +12,7 @@ import { addProductFormElements } from "@/config";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addNewProduct,
+  deleteProduct,
   editProduct,
   fetchAllProducts,
 } from "@/store/admin/products-slice";
@@ -83,6 +84,15 @@ function AdminProducts() {
           });
   }
 
+  function handleDelete(getCurrentProductId) {
+    dispatch(deleteProduct(getCurrentProductId)).then((data) => {
+      if (data?.payload?.success) {
+        dispatch(fetchAllProducts());
+        toast.success("Product Deleted Successfully");
+      }
+    });
+  }
+
   function isFormValid() {
     return Object.keys(formData)
 
@@ -113,6 +123,7 @@ function AdminProducts() {
                 setCurrentEditedId={setCurrentEditedId}
                 key={product._id}
                 product={product}
+                handleDelete={handleDelete}
               />
             ))
           : null}
