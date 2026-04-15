@@ -9,14 +9,14 @@ export const registerFormControls = [
   {
     name: "email",
     label: "Email",
-    placeholder: "Enter your user email",
+    placeholder: "Enter your email",
     componentType: "input",
     type: "email",
   },
   {
     name: "password",
     label: "Password",
-    placeholder: "Enter your user password",
+    placeholder: "Enter your password",
     componentType: "input",
     type: "password",
   },
@@ -26,14 +26,14 @@ export const loginFormControls = [
   {
     name: "email",
     label: "Email",
-    placeholder: "Enter your user email",
+    placeholder: "Enter your email",
     componentType: "input",
     type: "email",
   },
   {
     name: "password",
     label: "Password",
-    placeholder: "Enter your user password",
+    placeholder: "Enter your password",
     componentType: "input",
     type: "password",
   },
@@ -108,6 +108,11 @@ export const shoppingViewHeaderMenuItems = [
     path: "/shop/home",
   },
   {
+    id: "products",
+    label: "Products",
+    path: "/shop/listing",
+  },
+  {
     id: "men",
     label: "Men",
     path: "/shop/listing",
@@ -132,7 +137,29 @@ export const shoppingViewHeaderMenuItems = [
     label: "Accessories",
     path: "/shop/listing",
   },
+  {
+    id: "search",
+    label: "Search",
+    path: "/shop/search",
+  },
 ];
+
+export const categoryOptionsMap = {
+  men: "Men",
+  women: "Women",
+  kids: "Kids",
+  accessories: "Accessories",
+  footwear: "Footwear",
+};
+
+export const brandOptionsMap = {
+  nike: "Nike",
+  adidas: "Adidas",
+  puma: "Puma",
+  levi: "Levi",
+  zara: "Zara",
+  "h&m": "H&M",
+};
 
 export const filterOptions = {
   category: [
@@ -151,3 +178,47 @@ export const filterOptions = {
     { id: "h&m", label: "H&M" },
   ],
 };
+
+export const sortOptions = [
+  { id: "price-lowtohigh", label: "Price: Low to High" },
+  { id: "price-hightolow", label: "Price: High to Low" },
+  { id: "title-atoz", label: "Title: A to Z" },
+  { id: "title-ztoa", label: "Title: Z to A" },
+];
+
+export const addressFormControls = [
+  {
+    label: "Address",
+    name: "address",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your address",
+  },
+  {
+    label: "City",
+    name: "city",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your city",
+  },
+  {
+    label: "Pincode",
+    name: "pincode",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your pincode",
+  },
+  {
+    label: "Phone",
+    name: "phone",
+    componentType: "input",
+    type: "text",
+    placeholder: "Enter your phone number",
+  },
+  {
+    label: "Notes",
+    name: "notes",
+    componentType: "textarea",
+    placeholder: "Enter any additional notes",
+  },
+];
