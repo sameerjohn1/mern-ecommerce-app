@@ -6,6 +6,7 @@ require("dotenv").config();
 const authRouter = require("./routes/auth/auth-routes");
 const adminProductsRoutes = require("./routes/admin/products-routes");
 const shopProductsRoutes = require("./routes/shop/product-routes");
+const shopCartRouter = require("./routes/shop/cart-routes");
 
 mongoose
   .connect(process.env.MONGODB_URL)
@@ -35,6 +36,7 @@ app.use(cookieParser());
 app.use("/api/auth", authRouter);
 app.use("/api/admin/products", adminProductsRoutes);
 app.use("/api/shop/products", shopProductsRoutes);
+app.use("/api/shop/cart", shopCartRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
