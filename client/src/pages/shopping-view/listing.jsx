@@ -18,6 +18,8 @@ import {
 import ShoppingProductTile from "@/components/shopping-view/product-tile";
 import { useSearchParams } from "react-router-dom";
 import ProductDetailsDialog from "@/components/shopping-view/product-details";
+import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
+import { toast } from "sonner";
 
 function createSearchParamsHelper(filterParams) {
   const queryParams = [];
@@ -37,6 +39,7 @@ function ShoppingListing() {
   const { productList, productDetails } = useSelector(
     (state) => state.shopProducts,
   );
+  const { user } = useSelector((state) => state.auth);
   const [filters, setFilters] = useState({});
   const [sort, setSort] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -70,6 +73,22 @@ function ShoppingListing() {
     dispatch(fetchProductDetails(getCurrentProductId));
   }
 
+  function handleAddtoCart(getCurrentProductId) {
+    // console.log(getCurrentProductId);
+    dispatch(
+      addToCart({
+        userId: user?.id,
+        productId: getCurrentProductId,
+        quantity: 1,
+      }),
+    ).then((data) => {
+      if (data?.payload?.success) {
+        dispatch(fetchCartItems(user?.id));
+        toast.success("Product added to cart successfully");
+      }
+    });
+  }
+
   useEffect(() => {
     setSort("price-lowtohigh");
     setFilters(JSON.parse(sessionStorage.getItem("filters")) || {});
@@ -90,7 +109,7 @@ function ShoppingListing() {
   }, [dispatch, sort, filters]);
 
   // console.log(productList, "productList");
-  console.log(productDetails, "productDetails");
+  // console.log(productDetails, "productDetails");
 
   useEffect(() => {
     if (productDetails !== null) setOpenDetailsDialog(true);
@@ -141,6 +160,7 @@ function ShoppingListing() {
                 <ShoppingProductTile
                   handleGateProductDetails={handleGateProductDetails}
                   product={productItem}
+                  handleAddtoCart={handleAddtoCart}
                 />
               ))
             : null}
