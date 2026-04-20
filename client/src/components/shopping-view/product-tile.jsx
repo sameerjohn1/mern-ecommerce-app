@@ -3,7 +3,11 @@ import { Button } from "../ui/button";
 import { brandOptionsMap, categoryOptionsMap } from "@/config";
 import { Badge } from "../ui/badge";
 
-function ShoppingProductTile({ product, handleGateProductDetails }) {
+function ShoppingProductTile({
+  product,
+  handleGateProductDetails,
+  handleAddtoCart,
+}) {
   return (
     <Card className="w-full max-w-sm mx-auto">
       <div onClick={() => handleGateProductDetails(product?._id)}>
@@ -28,7 +32,9 @@ function ShoppingProductTile({ product, handleGateProductDetails }) {
           ) : null}
         </div>
         <CardContent className="p-4">
-          <h2 className="text-xl font-bold mb-2">{product?.title}</h2>
+          <h2 className="text-xl font-bold mb-2 w-full truncate">
+            {product?.title}
+          </h2>
           <div className="flex justify-between items-center mb-2">
             <span className="text-[16px] text-muted-foreground">
               {categoryOptionsMap[product?.category]}
@@ -59,7 +65,12 @@ function ShoppingProductTile({ product, handleGateProductDetails }) {
             Out Of Stock
           </Button>
         ) : (
-          <Button className="w-full">Add to cart</Button>
+          <Button
+            onClick={() => handleAddtoCart(product?._id)}
+            className="w-full h-10"
+          >
+            Add to cart
+          </Button>
         )}
       </CardFooter>
     </Card>
