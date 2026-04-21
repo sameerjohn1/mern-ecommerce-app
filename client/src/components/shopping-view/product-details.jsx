@@ -5,8 +5,34 @@ import { Separator } from "../ui/separator";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { StarIcon } from "lucide-react";
 import { Input } from "../ui/input";
+import { toast } from "sonner";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
 
 const ProductDetailsDialog = ({ open, setOpen, productDetails }) => {
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+
+  function handleAddToCart(getCurrentProductId) {
+    if (!user?.id) {
+      toast.error("Please login first");
+      return;
+    }
+
+    dispatch(
+      addToCart({
+        userId: user.id,
+        productId: getCurrentProductId,
+        quantity: 1,
+      }),
+    ).then((data) => {
+      if (data?.payload?.success) {
+        dispatch(fetchCartItems(user.id));
+        toast.success("Product added to cart successfully");
+      }
+    });
+  }
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent
@@ -57,7 +83,12 @@ const ProductDetailsDialog = ({ open, setOpen, productDetails }) => {
           </div>
 
           <div className="mt-5 mb-5">
-            <Button className={"w-full h-10"}>Add to Cart</Button>
+            <Button
+              className={"w-full h-10"}
+              onClick={() => handleAddToCart(productDetails?._id)}
+            >
+              Add to Cart
+            </Button>
           </div>
           <Separator />
           <div className="max-h-[300px] overflow-auto">
