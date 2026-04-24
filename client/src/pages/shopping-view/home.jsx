@@ -23,8 +23,14 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllFilteredProducts } from "@/store/shop/product-slice";
+import {
+  fetchAllFilteredProducts,
+  fetchProductDetails,
+} from "@/store/shop/product-slice";
 import ShoppingProductTile from "@/components/shopping-view/product-tile";
+import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
+import { toast } from "sonner";
+import ProductDetailsDialog from "@/components/shopping-view/product-details";
 
 const categoriesWithIcon = [
   { id: "men", label: "Men", icon: ShirtIcon },
@@ -45,7 +51,12 @@ const brandsWithIcon = [
 
 function ShoppingHome() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const { productList } = useSelector((state) => state.shopProducts);
+  const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
+
+  const { productList, productDetails } = useSelector(
+    (state) => state.shopProducts,
+  );
+  const { user } = useSelector((state) => state.auth);
 
   const slides = [bannerOne, bannerTwo, bannerThree];
 
@@ -61,6 +72,30 @@ function ShoppingHome() {
     sessionStorage.setItem("filters", JSON.stringify(currentFilter));
     navigate(`/shop/listing`);
   }
+
+  function handleGateProductDetails(getCurrentProductId) {
+    dispatch(fetchProductDetails(getCurrentProductId));
+  }
+
+  function handleAddtoCart(getCurrentProductId) {
+    // console.log(getCurrentProductId);
+    dispatch(
+      addToCart({
+        userId: user?.id,
+        productId: getCurrentProductId,
+        quantity: 1,
+      }),
+    ).then((data) => {
+      if (data?.payload?.success) {
+        dispatch(fetchCartItems(user?.id));
+        toast.success("Product added to cart successfully");
+      }
+    });
+  }
+
+  useEffect(() => {
+    if (productDetails !== null) setOpenDetailsDialog(true);
+  }, [productDetails]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -173,15 +208,21 @@ function ShoppingHome() {
             {productList && productList.length > 0
               ? productList.map((productItem) => (
                   <ShoppingProductTile
-                    // handleGetProductDetails={handleGetProductDetails}
+                    handleGateProductDetails={handleGateProductDetails}
                     product={productItem}
-                    // handleAddtoCart={handleAddtoCart}
+                    handleAddtoCart={handleAddtoCart}
                   />
                 ))
               : null}
           </div>
         </div>
       </section>
+
+      <ProductDetailsDialog
+        open={openDetailsDialog}
+        setOpen={setOpenDetailsDialog}
+        productDetails={productDetails}
+      />
     </div>
   );
 }

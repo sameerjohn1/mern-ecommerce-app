@@ -53,6 +53,7 @@ function MenuItems() {
 function HeaderRightContent() {
   const { user } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.shopCart);
+  const navigate = useNavigate();
 
   const [openCartSheet, setOpenCartSheet] = useState(false);
   const dispatch = useDispatch();
@@ -97,7 +98,7 @@ function HeaderRightContent() {
           <DropdownMenuLabel>Logged in as {user?.userName} </DropdownMenuLabel>
           <DropdownMenuSeparator />
 
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={() => navigate("/shop/account")}>
             <UserCog className="mr-2 h-4 w-4" />
             Account
           </DropdownMenuItem>
