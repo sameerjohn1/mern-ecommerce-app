@@ -8,6 +8,8 @@ const adminProductsRoutes = require("./routes/admin/products-routes");
 const shopProductsRoutes = require("./routes/shop/product-routes");
 const shopCartRouter = require("./routes/shop/cart-routes");
 const shopAddressRouter = require("./routes/shop/address-routes");
+const shopOrderRouter = require("./routes/shop/order-routes");
+const adminOrderRouter = require("./routes/admin/order-routes");
 
 mongoose
   .connect(process.env.MONGODB_URL)
@@ -36,9 +38,12 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRouter);
 app.use("/api/admin/products", adminProductsRoutes);
+app.use("/api/admin/orders", adminOrderRouter);
+
 app.use("/api/shop/products", shopProductsRoutes);
 app.use("/api/shop/cart", shopCartRouter);
 app.use("/api/shop/address", shopAddressRouter);
+app.use("/api/shop/order", shopOrderRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
