@@ -50,9 +50,7 @@ function Address({ setCurrentSelectedAddress, selectedId }) {
             dispatch(fetchAllAddresses(user?.id));
             setCurrentEditedId(null);
             setFormData(initialAddressFormData);
-            toast({
-              title: "Address updated successfully",
-            });
+            toast.success("Address updated successfully");
           }
         })
       : dispatch(
@@ -64,9 +62,7 @@ function Address({ setCurrentSelectedAddress, selectedId }) {
           if (data?.payload?.success) {
             dispatch(fetchAllAddresses(user?.id));
             setFormData(initialAddressFormData);
-            toast({
-              title: "Address added successfully",
-            });
+            toast.success("Address added successfully");
           }
         });
   }
@@ -77,9 +73,7 @@ function Address({ setCurrentSelectedAddress, selectedId }) {
     ).then((data) => {
       if (data?.payload?.success) {
         dispatch(fetchAllAddresses(user?.id));
-        toast({
-          title: "Address deleted successfully",
-        });
+        toast.success("Address deleted successfully");
       }
     });
   }
@@ -112,7 +106,7 @@ function Address({ setCurrentSelectedAddress, selectedId }) {
     <Card>
       <div className="mb-5 p-3 grid grid-cols-1 sm:grid-cols-2  gap-2">
         {addressList && addressList.length > 0
-          ? addressList.map((singleAddressItem) => (
+          ? addressList?.map((singleAddressItem) => (
               <AddressCard
                 selectedId={selectedId}
                 handleDeleteAddress={handleDeleteAddress}
