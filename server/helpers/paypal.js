@@ -1,9 +1,9 @@
 const paypal = require("paypal-rest-sdk");
 
 paypal.configure({
-  mode: process.env.PAYPAL_MODE, // 👈 yahan se aayega
-  client_id: process.env.PAYPAL_CLIENT_ID,
-  client_secret: process.env.PAYPAL_CLIENT_SECRET,
+  mode: "sandbox",
+  client_id: "dummy_client_id",
+  client_secret: "dummy_secret",
 });
 
 module.exports = paypal;
